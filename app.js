@@ -1,11 +1,17 @@
-// app.js
 import express from 'express';
+import pool from './db.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.get('/', (req, res) => {
-  res.send('Hello World from Node.js and Express!! Say hello to Norbey :)');
+app.get('/', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT NOW() AS now');
+    res.send(`Hello World! Server time: ${rows[0].now}`);
+  } catch (err) {
+    console.error('Database error:', err);
+    res.status(500).send('Error connecting to database');
+  }
 });
 
 app.listen(PORT, () => {

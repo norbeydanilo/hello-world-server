@@ -1,9 +1,28 @@
 version: '3.8'
 
 services:
-  hello-world-server:
-    build: .
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-local
+    restart: always
     ports:
-      - '3000:3000'
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: Norbey+980427
+      MYSQL_DATABASE: hwdb
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  app:
+    build: .
     container_name: hello-world-server
     restart: always
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.development
+    depends_on:
+      - mysql
+
+volumes:
+  mysql-data:
