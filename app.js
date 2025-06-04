@@ -9,7 +9,7 @@ app.get('/', async (req, res) => {
     const [rows] = await pool.query('SELECT NOW() AS now');
     res.send(`Hello World! Server time: ${rows[0].now}`);
   } catch (err) {
-    console.error('Database error:', err);
+    console.error('Database errorrrrrrr:', err);
     res.status(500).send('Error connecting to database');
   }
 });
